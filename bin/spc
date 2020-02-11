@@ -1,0 +1,82 @@
+#! /bin/bash
+
+path=$(dirname "$0")
+
+
+
+if [ "$#" -eq 0 ];then
+echo "No arguments provided"
+
+elif [ "$1" == "help" ];then
+python "$path"/help.py
+
+elif [ "$1" == "observe" ];then
+var=$(realpath "$2")
+python "$path"/observe.py "$var"
+
+elif [ "$1" == "config" ];then
+if [ "$#" -eq 1 ];then
+python "$path"/config.py
+else
+python "$path"/config_edit.py
+fi
+
+elif [ "$1" == "view" ];then
+python "$path"/access.py
+elif [ "$1" == "uploadfile" ];then
+filename="$2"
+filename=$(echo "$filename" | sed -r 's/ /\\ /g')
+python "$path"/uploads.py "$filename" "$3"
+elif [ "$1" == "uploaddir" ];then
+#li=$(find $2 -type f)
+
+
+
+
+IFS='/' read -ra ADDR <<< "$2"
+count=${#ADDR[@]}
+
+IFS=$'\n'
+for var in $(find "$2" -type f)
+do
+  fpath2=$(echo "$var" |  cut -d'/' -f"$count"- )  #this also contains the file name
+  fpath2=$(dirname $( echo "$fpath2"))  #only the path name with 
+
+    filepath=$(dirname $( echo "$var"))
+    filename=$(echo "$var" | sed "s/.*\///")
+    #filename=$(echo "$filename" | sed -r 's/ /\\ /g')
+    slash="/"
+    echo "$filename" "$fpath2$slash"
+    python "$path"/uploads.py "$filepath$slash$filename" "$fpath2$slash"
+done
+
+# IFS=$'\n'
+# for var in $(find "$2" -type f)
+# do
+#     #var=$(echo "$var" | cut -d'/' -f2- ) # gives the whole path without ./
+
+#  #	filepath=$(dirname $( echo "$var" | cut -d'/' -f2- ))  # gives only the whole directory path without ./
+#   # 	filename=$(basename $(echo "$var" | cut -d'/' -f2- ))   # gives the file name
+#     filepath=$(dirname $( echo "$var"))
+#     filename=$(echo "$var" | sed "s/.*\///")
+#    	#filename=$(echo "$filename" | sed -r 's/ /\\ /g')
+#     slash="/"
+#   	python "$path"/uploads.py "$filepath$slash$filename" "$filepath$slash"
+#     done
+
+elif [ "$1" == "delete" ];then
+python "$path"/delete.py "$2"
+elif [ "$1" == "download" ];then
+python "$path"/download.py "$2"
+elif [ "$1" == "set_url" ];then
+python "$path"/set_url.py "$2"
+elif [ "$1" == "signup" ];then
+python "$path"/signup.py
+elif [ "$1" == "version" ];then
+	echo "spc version: 0.500-beta"
+elif [ "$1" == "server" ];then
+	python "$path"/server.py
+else
+	echo "Invalid arguments, use 'man spc'  for more details"
+fi
+

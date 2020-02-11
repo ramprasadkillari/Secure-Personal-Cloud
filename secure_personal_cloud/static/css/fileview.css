@@ -1,0 +1,342 @@
+body,h1,h2,h3,h4,h5,h6 {
+	font-family: "Lato", sans-serif;
+	/* background-color: black; */
+	outline: 0;
+	min-width: 1000px;
+}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+table {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+}
+
+td, th{
+	margin: 50px;
+	padding: 20px 50px;
+}
+
+table td:hover {
+	-moz-transform: scale(1.1);
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+	transition: all 0.3s;
+}
+
+table th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #4CAF50;
+	color: white;
+	overflow: hidden;
+}
+#loader {
+	zoom: 0.5;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: 1;
+	width: 150px;
+	height: 150px;
+	margin: -75px 0 0 -75px;
+	border: 16px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 16px solid #3498db;
+	width: 120px;
+	height: 120px;
+	-webkit-animation: spin 0.5s linear infinite;
+	animation: spin 0.5s linear infinite;
+}
+
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+#files {
+	display: none;
+	text-align: center;
+}
+
+.search-container {
+	padding:5px;
+	float: center;
+	text-align: center;
+}
+.search-container input{
+	background: rgb(250, 100, 100);
+	height: 50px;
+	width: 150px;
+	border: none;
+	color: white;
+	margin-left: 10px;
+	margin-right: 0;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	padding: 15px;
+	font-weight: bold;
+}
+
+.search-container input:hover, input:focus{
+	outline: 0;
+}
+
+#search:hover, #search:focus{
+	outline: 0;
+	-webkit-animation-name: expand;
+    -webkit-animation-duration: 0.5s;
+    animation-name: expand;
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+}
+.search-container button {
+/* padding: 6px 10px; */
+margin-top: 8px;
+margin-right: 0;
+padding:0;
+outline: 0;
+background: rgb(250, 100, 100);
+font-size: 17px;
+border: none;
+cursor: pointer;
+height:50px;
+width: 50px;	
+color: white;
+border-top-right-radius: 5px;
+border-bottom-right-radius: 5px;
+}
+
+.search-container button:hover {
+	transition: all 0.3s;
+}
+
+@keyframes expand {
+    0% {width:150px;}
+    100% {width: 500px;}
+}
+
+@-webkit-keyframes expand {
+    0% {width:150px;}
+    100% {width: 500px;}
+}
+
+#path {
+	background: transparent;
+	color:white;
+	height: 50px;
+	border-width: 0;
+	font-size:25px;
+}
+#path:hover{
+	-moz-transform: scale(1.1);
+	-webkit-transform: scale(1.1);
+	transform: scale(1.03);
+	transition: all 0.1s;
+	outline: 0;
+}
+
+#path:focus{
+	outline: 0;
+}
+
+#info {
+	width: 100%;
+	height: 0;
+	background: #ccc;
+	margin: 0;
+	padding: 0;
+}
+
+.info {
+	-webkit-animation-name: expand_vertical;
+    -webkit-animation-duration: 0.5s;
+    animation-name: expand_vertical;
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes expand_vertical {
+    0% {height:0px;}
+    100% {height: 500px;}
+}
+
+@-webkit-keyframes expand_vertical {
+    0% {height:0px;}
+    100% {height: 500px;}
+}
+
+@keyframes fade {
+    0% {opacity:0;}
+    100% {opacity: 1;}
+}
+
+@-webkit-keyframes fade {
+    0% {opacity:0;}
+    100% {opacity: 1;}
+}
+
+.fade {
+	-webkit-animation-name: fade;
+    -webkit-animation-duration: 0.5s;
+    animation-name: fade;
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes expandside {
+    0% {width:0px;}
+    100% {width: 200px;}
+}
+
+@-webkit-keyframes expandside {
+    0% {width:0px;}
+    100% {width: 200px;}
+}
+
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+}
+
+.openbtn:hover {
+    background-color: #444;
+}
+
+#main {
+    transition: margin-left .5s;
+}
+
+.download:focus {
+	background-color: #149e22;
+	outline: 0;
+}
+
+.infoout {
+	-webkit-animation-name: expand_vertical_out;
+    -webkit-animation-duration: 0.5s;
+    animation-name: expand_vertical_out;
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes expand_vertical_out {
+    0% {height:500px;}
+    100% {height: 0px;}
+}
+
+@-webkit-keyframes expand_vertical_out {
+    0% {height:500px;}
+    100% {height: 0px;}
+}
+
+@keyframes fadeout {
+    0% {opacity:1;}
+    100% {opacity: 0;}
+}
+
+@-webkit-keyframes fadeout {
+    0% {opacity:1;}
+    100% {opacity: 0;}
+}
+
+.fadeout {
+	-webkit-animation-name: fadeout;
+    -webkit-animation-duration: 0.5s;
+    animation-name: fadeout;
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+}
+
+.w3-button:hover {
+	text-decoration: none;
+}
+
+#key {
+	position: fixed;
+	top: 60px;
+	left: 440px;
+	background: black;
+	color: white;
+	height: 140px;
+	width: 300px;
+	border-radius: 5px;
+	opacity: 0.9;
+	padding: 30px 30px;
+}
+
+#keyinput {
+    background: white;
+    height: 30px;
+    width: 220px;
+    border: none;
+    color: black;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 15px;
+    font-weight: bold;
+    opacity: 1;
+}
+
+#closekey {
+    background: white;
+    height: 30px;
+    width: 30px;
+    border: none;
+    color: black;
+    margin: 10px;
+    border-radius: 5px;
+    /* padding: 15px; */
+    font-weight: bold;
+    opacity: 1;
+    position: relative;
+    top: -50px;
+    left: 200px;
+}
+
+#closekey:focus{
+	outline:0;
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script> -->
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script> -->
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script> -->
+            <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+            <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+            <script src="static/js/react.js"></script>
+            <script src="static/js/react-dom.js"></script>
+            <script src="static/js/jquery.min.js"></script>
+            <script src="static/js/bootstrap.min.js"></script>
+            <script src="/static/js/sjcl.js"></script>
+            <script src="/static/js/mimetypes.js"></script>
+            <script src="/static/js/download2.js"></script>
+        
+            <!-- <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css"></link> -->
+            <!-- <link rel="stylesheet" href="/static/css/css.css" type="text/css"></link> -->
+            <!-- <link rel="stylesheet" href="/static/css/css1.css" type="text/css"></link> -->
+            <link rel="stylesheet" href="/static/css/fontawesome" type="text/css"></link>
+            <link rel="stylesheet" href="/static/css/w3.css" type="text/css"></link>
+            <link rel="stylesheet" href="/static/css/fileview.css" type="text/css"></link>
+    </head>
+    <body>
+        {% block content %}
+        {% if user.is_authenticated %}
+        <div style="display:none">
+            <p><a href="{% url 'upload_file' %}">Upload Files</a></p>
+            <p><a href="{% url 'upload_folder' %}">Upload Folders</a></p>
+            <p><a id="startsync" href="{% url 'deadlockst' %}">{{ details.in_sync }}</a></p>
+            <p><a id="stopsync" href="{% url 'deadlocksf' %}">{{ details.in_sync }}</a></p>
+            <p><a href="{% url 'upload_folder' %}"></a></p>
+            <p><a href="{% url 'logout' %}">logout</a></p>
+            <table>
+                {% for obj in documents %}
+                <tr>
+                <th>
+                    <a id="filename" href="{{ obj.document.url }}">{{ obj.name }}</a>
+                    <a id="deletefile" href="{% url 'delete' obj.id %}">{{ obj.filepath }}{{ obj.name }}</a>
+                    <small> <div id="filepath"> (File Path: {{ obj.filepath }} ) </div></small>
+                    <small> <div id="uploadtime">(Uploaded at: {{ obj.uploaded_at }})</div> </small>
+                    <small> <div id="md5sum">(md5sum: {{ obj.md5sum }} )</div> </small>
+                </th>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <p><a href="{% url 'logout' %}">logout</a></p>
+        </div>
+        <script>
+            var filenames = [];
+            var filepaths = [];
+            var fileids = [];
+            var uploadtime = [];
+            var filesize = [];
+            var md5sum = [];
+            var encryption = [];
+            var filelinks = [];
+        </script>
+
+        {% for obj in documents %}
+        <script>
+            filenames.push("{{ obj.name }}");
+            filepaths.push("{{ obj.filepath }}");
+            fileids.push("{{ obj.id }}");
+            uploadtime.push("{{ obj.uploaded_at }}");
+
+            md5sum.push("{{ obj.md5sum }}");
+            encryption.push("{{ obj.enc_scheme }}");
+            filelinks.push("{{ obj.document.url }}")
+        </script>
+        {% endfor %}
+        <!-- Navbar -->
+		<div class="w3-top">
+            <div class="w3-bar w3-red w3-card w3-left-align w3-large" id="topbar">
+                <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">CLOUD 9</a>
+                <a href="{% url 'upload_file' %}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Upload</a>
+                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Download All</a>
+                <button class="w3-bar-item w3-button w3-padding-large w3-hover-white" onclick="keyinput()">Encryption Key</button>
+                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Settings</a>
+                <a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="right:0; position: absolute;">Logout</a>
+            </div>
+        
+            <!-- Navbar on small screens -->
+            <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+                <a href="{% url 'upload_file' %}" class="w3-bar-item w3-button w3-padding-large">Upload</a>
+                <a href="#" class="w3-bar-item w3-button w3-padding-large">Download All</a>
+                <button class="w3-bar-item w3-button w3-padding-large w3-hover-white" onclick="keyinput()">Encryption Key</button>
+                <a href="#" class="w3-bar-item w3-button w3-padding-large">Settings</a>
+                <a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+            </div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div id="key" style="display:none">
+            Enter Decryption Key:
+            <input id="keyinput" type="password"></input>
+            <button id="closekey" onclick="closekey()"><i class="fa fa-check"></i></button>
+        </div>
+        <!-- Header -->
+        <header class="w3-container w3-red w3-center" style="padding:20px 16px">
+            <h1 class="w3-margin w3-jumbo">HI {{ user.username }}!</h1>
+            <div>
+                    <button id="path" onclick="pathinput()">current folder</button>
+            </div>
+            <div class="search-container" style="display:none" id="inputpath">
+            <input type="text" placeholder="   Enter Path..." name="search" id="search"><button onclick="pathmannual()"><i class="fa fa-arrow-right"></i></button>
+            </div>
+            <button class="w3-button w3-white w3-padding-large w3-large w3-margin-top" onclick="goback()"><i class="fa fa-angle-left"></i>  Back</button>
+        </header>
+        <div id="info" style="top:300px"></div>
+        <button style="top: 292px; right: 0; position: absolute; display:none; float:right; outline: 0; border: 0; background:transparent" onclick="closeinfo()" id="closeinfo"><i class="fas fa-times"></i></button>
+        <div id="loader"></div>
+        <div style="left: 150px; top: 30px; position: relative">
+            &nbsp;
+            <table id="files"></table>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form  method="post">{% csrf_token %}
+                                    <h4>Are you sure you want to delete?</h4>
+                                    <button type="submit" class="btn btn-danger btn-md">Confirm delete</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                </form>
+                           </div>
+                </div>
+            
+            </div>
+        </div>
+
+        
+      </div>
+      </body>
+        <script src="/static/js/fileview.js"></script>
+
+
+      {% else %}
+        <p>error occured</p>
+        
+        {% endif %}
+        {% endblock %}
+    </body>
+</html>

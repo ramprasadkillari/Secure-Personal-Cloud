@@ -1,0 +1,54 @@
+#! /bin/bash
+
+if [ "$#" -eq 0 ];then
+
+echo "No arguments provided"
+
+elif [ "$1" == "config" ];then
+if [ "$#" -eq 1 ];then
+python ~/Downloads/linux_client/bin/config.py
+else
+python ~/Downloads/linux_client/bin/config_edit.py
+fi
+
+elif [ "$1" == "view" ];then
+python ~/Downloads/linux_client/bin/access.py
+elif [ "$1" == "uploadfile" ];then
+filename="$2"
+filename=$(echo "$filename" | sed -r 's/ /\\ /g')
+python ~/Downloads/linux_client/bin/uploads.py "$filename" "$3"
+elif [ "$1" == "uploaddir" ];then
+for var in $(find $2 -type f)
+do
+  if test -f  $(echo "$var" | cut -d'/' -f-2 )  ; then
+
+  	var=$(echo "$var" | cut -d'/' -f-2 )
+  	filename=$(echo "$var" | cut -d'/' -f2-)
+  	filepath="/"
+
+    filename=$(echo "$filename" | sed -r 's/ /\\ /g')
+  	python ~/Downloads/linux_client/bin/uploads.py "$filename" "$filepath"
+ else
+    var=$(echo "$var" | cut -d'/' -f2- ) # gives the whole path without ./
+
+ 	filepath=$(echo $(dirname $( echo "$var" | cut -d'/' -f2- )) )  # gives only the whole directory path without ./
+   	filename=$(basename $(echo "$var" | cut -d'/' -f2- ))   # gives the file name
+   	filename=$(echo "$filename" | sed -r 's/ /\\ /g')
+    slash="/"
+    root="/home/"
+  	python ~/Downloads/linux_client/bin/uploads.py "$root$filepath$slash$filename" "$root$filepath"
+	   fi
+    done
+elif [ "$1" == "download" ];then
+python ~/Downloads/linux_client/bin/download.py "$2"
+elif [ "$1" == "set_url" ];then
+python ~/Downloads/linux_client/bin/set_url.py "$2"
+elif [ "$1" == "signup" ];then
+python ~/Downloads/linux_client/bin/signup.py
+elif [ "$1" == "version" ];then
+	echo "spc version: 0.500-beta"
+elif [ "$1" == "server" ];then
+	python ~/Downloads/linux_client/bin/server.py
+else
+	echo "Invalid arguments, use 'man spc' or 'spc help' for more details"
+fi

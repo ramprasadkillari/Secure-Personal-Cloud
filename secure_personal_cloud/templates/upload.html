@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  form{
+  margin-left: 40%;
+  margin-top: 5%;
+  }
+</style>
+{% if user.is_authenticated %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <button type="submit">Upload</button>
+  </form>
+
+  <p style="margin-left: 45%"><a href="{% url 'home' %}">Return to home</a></p>
+
+{% else %}
+  <p><a href="{% url 'home' %}">Return to home</a></p>
+{% endif %}
+{% endblock %}
