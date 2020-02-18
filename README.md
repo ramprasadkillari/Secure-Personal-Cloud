@@ -1,5 +1,6 @@
 # A cloud storage of files
 
+Users are provided with AES encrption of files 
 Clone this Repository into your Folder.
 
 ## Instructions for Web Client:
